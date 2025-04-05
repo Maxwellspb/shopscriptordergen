@@ -1,0 +1,18 @@
+networks:
+    so-network:
+
+services:
+    php:
+        build: deploy/php
+        working_dir: /opt/app
+        volumes:
+            - '.:/opt/app'
+            - './deploy/php/php-ini-overrides.ini:/etc/php/8.4/fpm/conf.d/99-overrides.ini'
+            - './deploy/php/php-ini-overrides.ini:/etc/php/8.4/cli/conf.d/99-overrides.ini'
+        restart: "no"
+        environment:
+            - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
+            - XDEBUG_HOST=${XDEBUG_HOST}
+        networks:
+            - so-network
+        hostname: so-php
