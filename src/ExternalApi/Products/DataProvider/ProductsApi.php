@@ -23,15 +23,13 @@ class ProductsApi
      */
     public function listProducts(): array
     {
-        try {
-            $productData = $this->httpClient->get(
-                ProductApiResourcesEnum::SHOP_PRODUCT_SEARCH,
-                [
-                    self::FIELDS_PARAM_KEY => self::FIELDS_SKUS_PARAM
-                ]
-            );
-        } catch (Throwable $exception) {
+         $productData = $this->httpClient->get(
+            ProductApiResourcesEnum::SHOP_PRODUCT_SEARCH->value,
+            [
+                self::FIELDS_PARAM_KEY => self::FIELDS_SKUS_PARAM
+            ]
+        );
 
-        }
+         $a = 1;
     }
 }

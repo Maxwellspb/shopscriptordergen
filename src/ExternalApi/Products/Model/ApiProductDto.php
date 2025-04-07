@@ -2,14 +2,14 @@
 
 namespace App\ExternalApi\Products\Model;
 
-class ApiProductDto
+readonly class ApiProductDto
 {
     public function __construct(
-        public readonly int $productId,
-        public readonly string $productName,
-        public readonly int $skuId,
-        public readonly string $sku,
-        public readonly float $skuPrice,
+        public int $productId,
+        public string $productName,
+        public int $skuId,
+        public string $sku,
+        public float $skuPrice,
     ) {
     }
 }

@@ -14,7 +14,7 @@ class Kernel implements ContainerAwareInterface
         return $this->container;
     }
 
-    public function setContainer(DefinitionContainerInterface $container): ContainerAwareInterface
+    public function setContainer(DefinitionContainerInterface $container): self
     {
         $this->container = $container;
 

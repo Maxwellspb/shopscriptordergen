@@ -16,3 +16,5 @@ services:
         networks:
             - so-network
         hostname: so-php
+        extra_hosts:
+            - host.docker.internal:host-gateway

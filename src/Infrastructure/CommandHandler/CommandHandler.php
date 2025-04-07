@@ -2,18 +2,18 @@
 
 namespace App\Infrastructure\CommandHandler;
 
-use App\ExternalApi\Products\DataProvider\ProductApiHttpClientInterface;
+use App\ExternalApi\Products\DataProvider\ProductsApi;
 
-class CommandHandler implements CommandHandlerInterface
+class CommandHandler
 {
     public function __construct(
-        private readonly ProductApiHttpClientInterface $productApiHttpClient
+        private readonly ProductsApi $productsApi,
     )
     {
     }
 
     public function handle(array $args): void
     {
-
+        $this->productsApi->listProducts();
     }
 }
