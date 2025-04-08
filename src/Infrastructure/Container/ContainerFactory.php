@@ -2,7 +2,8 @@
 
 namespace App\Infrastructure\Container;
 
-use App\ExternalApi\Products\DataProvider\ProductApiHttpClient;
+use App\ExternalApi\ApiClient\ShopApiHttpClient;
+use App\ExternalApi\Products\DataProvider\ApiProductMapper;
 use App\ExternalApi\Products\DataProvider\ProductApiHttpClientInterface;
 use App\ExternalApi\Products\DataProvider\ProductsApi;
 use App\Infrastructure\CommandHandler\CommandHandler;
@@ -28,16 +29,24 @@ class ContainerFactory
 
         $container
             ->add(ProductsApi::class)
-            ->addArgument(ProductApiHttpClientInterface::class);
+            ->addArguments(
+                [
+                    ProductApiHttpClientInterface::class,
+                    ApiProductMapper::class,
+                ]
+            );
 
         $container
-            ->add(ProductApiHttpClientInterface::class, ProductApiHttpClient::class)
+            ->add(ProductApiHttpClientInterface::class, ShopApiHttpClient::class)
             ->addArguments(
                 [
                     ClientInterface::class,
                     new StringArgument($_ENV['BASE_API_URL']),
+                    new StringArgument($_ENV['ADMIN_TOKEN']),
                 ]
             );
+
+        $container->add(ApiProductMapper::class);
 
         $container
             ->add(ClientInterface::class, Client::class);

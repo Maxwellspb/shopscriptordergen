@@ -2,8 +2,8 @@
 
 namespace App\ExternalApi\Products\DataProvider;
 
+use App\ExternalApi\ApiClient\ShopApiHttpClient;
 use App\ExternalApi\Products\Model\ApiProductDto;
-use Throwable;
 
 class ProductsApi
 {
@@ -11,7 +11,8 @@ class ProductsApi
     private const string FIELDS_SKUS_PARAM = 'skus';
 
     public function __construct(
-        private readonly ProductApiHttpClient $httpClient
+        private readonly ShopApiHttpClient $httpClient,
+        private readonly ApiProductMapper $apiProductMapper,
     )
     {
 
@@ -30,6 +31,10 @@ class ProductsApi
             ]
         );
 
-         $a = 1;
+         if (! array_key_exists('products', $productData)) {
+             return [];
+         }
+
+         return $this->apiProductMapper->map($productData['products']);
     }
 }

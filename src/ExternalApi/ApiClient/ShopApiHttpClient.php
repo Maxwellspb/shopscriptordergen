@@ -1,14 +1,16 @@
 <?php
 
-namespace App\ExternalApi\Products\DataProvider;
+namespace App\ExternalApi\ApiClient;
 
+use App\ExternalApi\Products\DataProvider\ProductApiHttpClientInterface;
 use GuzzleHttp\ClientInterface;
 
-readonly class ProductApiHttpClient implements ProductApiHttpClientInterface
+readonly class ShopApiHttpClient implements ProductApiHttpClientInterface
 {
     public function __construct(
         private ClientInterface $client,
         private string $basicUrl,
+        private string $authToken
     ) {
     }
 
@@ -20,7 +22,7 @@ readonly class ProductApiHttpClient implements ProductApiHttpClientInterface
 
         $parameters = [
             'headers' => [
-                'Authorization' => 'Bearer ' . $parameters['authToken'],
+                'Authorization' => 'Bearer ' . $this->authToken,
             ],
             'query' => $parameters,
         ];

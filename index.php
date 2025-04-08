@@ -1,6 +1,6 @@
 <?php
 
-use App\ExternalApi\Products\DataProvider\ProductApiHttpClient;
+use App\ExternalApi\ApiClient\ShopApiHttpClient;
 use App\ExternalApi\Products\DataProvider\ProductApiHttpClientInterface;
 use App\Infrastructure\Container\ContainerFactory;
 use App\Infrastructure\Kernel\Kernel;
@@ -15,7 +15,7 @@ $kernel->handleCommand($argv);
 
 
 $container
-    ->add(ProductApiHttpClientInterface::class, ProductApiHttpClient::class);
+    ->add(ProductApiHttpClientInterface::class, ShopApiHttpClient::class);
 
 $commandHandler = $container->get('command_handler');
 $commandHandler->handle($argv);

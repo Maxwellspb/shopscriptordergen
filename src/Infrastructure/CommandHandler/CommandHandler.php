@@ -14,6 +14,6 @@ class CommandHandler
 
     public function handle(array $args): void
     {
-        $this->productsApi->listProducts();
+
     }
 }
