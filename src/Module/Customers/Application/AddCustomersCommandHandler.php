@@ -4,10 +4,10 @@ namespace App\Module\Customers\Application;
 
 use App\Module\Customers\Domain\Service\CustomerDataProviderInterface;
 
-class AddCustomersCommandHandler //implements command handler interface
+readonly class AddCustomersCommandHandler
 {
     public function __construct(
-        private readonly CustomerDataProviderInterface $customerDataProvider,
+        private CustomerDataProviderInterface $customerDataProvider,
     )
     {
     }

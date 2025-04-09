@@ -25,5 +25,7 @@ class ConfigurationProvider extends AbstractServiceProvider implements BootableS
         $dotenv = new Dotenv();
         $dotenv->loadEnv($container->get('@rootEnv'));
         $container->add(Dotenv::class, $dotenv);
+
+
     }
 }

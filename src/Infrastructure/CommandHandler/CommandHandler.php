@@ -2,18 +2,19 @@
 
 namespace App\Infrastructure\CommandHandler;
 
-use App\ExternalApi\Products\DataProvider\ProductsApi;
+use App\Module\Customers\Application\AddCustomersCommand;
+use League\Tactician\CommandBus;
 
 class CommandHandler
 {
     public function __construct(
-        private readonly ProductsApi $productsApi,
+        private CommandBus $commandBus,
     )
     {
     }
 
     public function handle(array $args): void
     {
-
+        $this->commandBus->handle(new AddCustomersCommand());
     }
 }

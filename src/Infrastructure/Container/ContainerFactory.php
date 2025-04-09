@@ -7,49 +7,36 @@ use App\ExternalApi\Products\DataProvider\ApiProductMapper;
 use App\ExternalApi\Products\DataProvider\ProductApiHttpClientInterface;
 use App\ExternalApi\Products\DataProvider\ProductsApi;
 use App\Infrastructure\CommandHandler\CommandHandler;
+use App\Infrastructure\ServiceProviders\ApiProductsServiceProvider;
+use App\Infrastructure\ServiceProviders\CommandBusServiceProvider;
+use App\Infrastructure\ServiceProviders\CommandsServiceProvider;
+use App\Infrastructure\ServiceProviders\ModuleCustomersServiceProvider;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use League\Container\Argument\Literal\StringArgument;
 use League\Container\Container;
 use League\Container\DefinitionContainerInterface;
+use League\Tactician\CommandBus;
 
 class ContainerFactory
 {
+    private const string CONTAINER_COMMAND_HANDLER_KEY = 'command_handler';
+
     public static function create(): DefinitionContainerInterface
     {
         $container = new Container();
 
         $container
             ->addServiceProvider(new PathProvider())
-            ->addServiceProvider(new ConfigurationProvider());
+            ->addServiceProvider(new ConfigurationProvider())
+            ->addServiceProvider(new ApiProductsServiceProvider())
+            ->addServiceProvider(new CommandsServiceProvider())
+            ->addServiceProvider(new CommandBusServiceProvider())
+            ->addServiceProvider(new ModuleCustomersServiceProvider());
 
         $container
-            ->add('command_handler', CommandHandler::class)
-            ->addArgument(ProductsApi::class);
-
-        $container
-            ->add(ProductsApi::class)
-            ->addArguments(
-                [
-                    ProductApiHttpClientInterface::class,
-                    ApiProductMapper::class,
-                ]
-            );
-
-        $container
-            ->add(ProductApiHttpClientInterface::class, ShopApiHttpClient::class)
-            ->addArguments(
-                [
-                    ClientInterface::class,
-                    new StringArgument($_ENV['BASE_API_URL']),
-                    new StringArgument($_ENV['ADMIN_TOKEN']),
-                ]
-            );
-
-        $container->add(ApiProductMapper::class);
-
-        $container
-            ->add(ClientInterface::class, Client::class);
+            ->add(self::CONTAINER_COMMAND_HANDLER_KEY, CommandHandler::class)
+            ->addArgument(CommandBus::class);
 
         return $container;
     }

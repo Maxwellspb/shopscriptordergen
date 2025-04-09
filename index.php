@@ -19,5 +19,3 @@ $container
 
 $commandHandler = $container->get('command_handler');
 $commandHandler->handle($argv);
-
-var_dump($commandHandler);
