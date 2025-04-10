@@ -10,11 +10,10 @@ readonly class AddCustomersCommandHandler
     public function __construct(
         private CustomerDataProviderInterface $customerDataProvider,
         private CustomerGeneratorInterface $customerGenerator,
-    )
-    {
+    ) {
     }
 
-    public function __invoke(AddCustomersCommand $command)
+    public function __invoke(AddCustomersCommand $command): void
     {
         $customerData = $this
             ->customerDataProvider

@@ -34,6 +34,9 @@ readonly class ApiHttpClient
     public function post(string $route, array $body): void
     {
         $body['format'] = 'json';
+
+        $url = $this->basicUrl . $route;
+
         $parameters = [
             'headers' => [
                 'Authorization' => 'Bearer ' . $this->authToken,
@@ -41,6 +44,6 @@ readonly class ApiHttpClient
             'form_params' => $body,
         ];
 
-        $this->client->request('POST', $route, $parameters);
+        $this->client->request('POST', $url, $parameters);
     }
 }
