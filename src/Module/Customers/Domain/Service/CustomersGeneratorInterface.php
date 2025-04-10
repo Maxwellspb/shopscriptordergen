@@ -4,7 +4,7 @@ namespace App\Module\Customers\Domain\Service;
 
 use App\Module\Customers\Domain\Model\Customer;
 
-interface CustomerGeneratorInterface
+interface CustomersGeneratorInterface
 {
     /**
      * @param Customer[] $customerData

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Module\Customers\Domain\Service;
+namespace App\Module\Customers\Domain\DataProvider;
 
 use App\Module\Customers\Domain\Model\Customer;
 
-interface CustomerDataProviderInterface
+interface CustomersDataProviderInterface
 {
     /**
      * @return Customer[]|array

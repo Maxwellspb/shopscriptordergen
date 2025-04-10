@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Module\Customers\Domain\Service;
+namespace App\Module\Customers\Domain\DataProvider;
 
 use App\Module\Customers\Domain\Model\Customer;
 
@@ -15,5 +15,16 @@ class CustomerNormalizer
             'email' => $customer->email,
             'sex' => $customer->sex,
         ];
+    }
+
+    public function denormalize(array $customerData)
+    {
+        return new Customer(
+            fullName: $customerData['full_name'],
+            name: $customerData['name'],
+            surname: $customerData['surname'],
+            email: $customerData['email'],
+            sex: $customerData['sex'],
+        );
     }
 }

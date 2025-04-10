@@ -3,11 +3,13 @@
 namespace App\Infrastructure\ServiceProviders;
 
 use App\ExternalApi\Customers\DataProvider\CustomersApi;
-use App\Module\Customers\Domain\Service\CustomerDataProviderInterface;
-use App\Module\Customers\Domain\Service\CustomerGeneratorInterface;
-use App\Module\Customers\Domain\Service\CustomerNormalizer;
-use App\Module\Customers\Infrastructure\ApiCustomerGenerator;
-use App\Module\Customers\Infrastructure\CsvCustomerDataProvider;
+use App\Module\Customers\Domain\DataProvider\CustomerNormalizer;
+use App\Module\Customers\Domain\DataProvider\ExternalCustomersDataProviderInterface;
+use App\Module\Customers\Domain\DataProvider\InternalCustomersDataProviderInterface;
+use App\Module\Customers\Domain\Service\CustomersGeneratorInterface;
+use App\Module\Customers\Infrastructure\ApiCustomersDataProvider;
+use App\Module\Customers\Infrastructure\ApiCustomersGenerator;
+use App\Module\Customers\Infrastructure\CsvCustomersDataProvider;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
 class ModuleCustomersServiceProvider extends AbstractServiceProvider
@@ -15,8 +17,9 @@ class ModuleCustomersServiceProvider extends AbstractServiceProvider
     public function provides(string $id): bool
     {
         $services = [
-            CustomerDataProviderInterface::class,
-            CustomerGeneratorInterface::class,
+            InternalCustomersDataProviderInterface::class,
+            ExternalCustomersDataProviderInterface::class,
+            CustomersGeneratorInterface::class,
             CustomerNormalizer::class,
         ];
 
@@ -28,16 +31,20 @@ class ModuleCustomersServiceProvider extends AbstractServiceProvider
         $container = $this->getContainer();
 
         $container
-            ->add(CustomerDataProviderInterface::class, CsvCustomerDataProvider::class)
+            ->add(InternalCustomersDataProviderInterface::class, CsvCustomersDataProvider::class)
             ->addArguments(
                 [
                     $container->get('@customerData'),
-                    CustomerGeneratorInterface::class
+                    CustomerNormalizer::class
                 ]
             );
 
         $container
-            ->add(CustomerGeneratorInterface::class, ApiCustomerGenerator::class)
+            ->add(ExternalCustomersDataProviderInterface::class, ApiCustomersDataProvider::class)
+            ->addArgument(CustomersApi::class);
+
+        $container
+            ->add(CustomersGeneratorInterface::class, ApiCustomersGenerator::class)
             ->addArguments(
                 [
                     CustomersApi::class,

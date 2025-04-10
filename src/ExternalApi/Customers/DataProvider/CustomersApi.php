@@ -9,6 +9,7 @@ final readonly class CustomersApi
 {
     public function __construct(
         private ApiHttpClient $apiHttpClient,
+        private ApiCustomersMapper $apiCustomerMapper,
     ) {
     }
 
@@ -25,5 +26,15 @@ final readonly class CustomersApi
             ApiResourcesEnum::SHOP_CUSTOMER_ADD->value,
             $body
         );
+    }
+
+    public function listCustomers(): array
+    {
+        $apiCustomersList = $this->apiHttpClient->get(
+            ApiResourcesEnum::SHOP_CUSTOMER_SEARCH->value,
+            []
+        );
+
+        return $this->apiCustomerMapper->map($apiCustomersList['customers']);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Infrastructure\ServiceProviders;
 
 use App\ExternalApi\ApiClient\ApiHttpClient;
+use App\ExternalApi\Customers\DataProvider\ApiCustomersMapper;
 use App\ExternalApi\Customers\DataProvider\CustomersApi;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
@@ -12,6 +13,7 @@ class ApiCustomersServiceProvider extends AbstractServiceProvider
     {
         $services = [
             CustomersApi::class,
+            ApiCustomersMapper::class,
         ];
 
         return in_array($id, $services);
@@ -23,6 +25,13 @@ class ApiCustomersServiceProvider extends AbstractServiceProvider
 
         $container
             ->add(CustomersApi::class)
-            ->addArgument(ApiHttpClient::class);
+            ->addArguments(
+                [
+                    ApiHttpClient::class,
+                    ApiCustomersMapper::class
+                ]
+            );
+
+        $container->add(ApiCustomersMapper::class);
     }
 }
