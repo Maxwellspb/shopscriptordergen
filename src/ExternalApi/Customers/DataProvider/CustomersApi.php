@@ -2,7 +2,28 @@
 
 namespace App\ExternalApi\Customers\DataProvider;
 
-class CustomersApi
-{
+use App\ExternalApi\ApiClient\ApiHttpClient;
+use App\ExternalApi\ApiClient\ApiResourcesEnum;
 
+final readonly class CustomersApi
+{
+    public function __construct(
+        private ApiHttpClient $apiHttpClient,
+    ) {
+    }
+
+    public function createSingleCustomer(array $customerData): void
+    {
+        $body = [];
+        $body['data']['name'] = $customerData['full_name'];
+        $body['data']['firstname'] = $customerData['name'];
+        $body['data']['lastname'] = $customerData['surname'];
+        $body['data']['email'] = $customerData['email'];
+        $body['data']['sex'] = $customerData['sex'];
+
+        $this->apiHttpClient->post(
+            ApiResourcesEnum::SHOP_CUSTOMER_ADD->value,
+            $body
+        );
+    }
 }

@@ -2,18 +2,13 @@
 
 namespace App\Infrastructure\Container;
 
-use App\ExternalApi\ApiClient\ShopApiHttpClient;
-use App\ExternalApi\Products\DataProvider\ApiProductMapper;
-use App\ExternalApi\Products\DataProvider\ProductApiHttpClientInterface;
-use App\ExternalApi\Products\DataProvider\ProductsApi;
 use App\Infrastructure\CommandHandler\CommandHandler;
+use App\Infrastructure\ServiceProviders\ApiCustomersServiceProvider;
 use App\Infrastructure\ServiceProviders\ApiProductsServiceProvider;
+use App\Infrastructure\ServiceProviders\ApplicationServiceProvider;
 use App\Infrastructure\ServiceProviders\CommandBusServiceProvider;
 use App\Infrastructure\ServiceProviders\CommandsServiceProvider;
 use App\Infrastructure\ServiceProviders\ModuleCustomersServiceProvider;
-use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
-use League\Container\Argument\Literal\StringArgument;
 use League\Container\Container;
 use League\Container\DefinitionContainerInterface;
 use League\Tactician\CommandBus;
@@ -29,10 +24,12 @@ class ContainerFactory
         $container
             ->addServiceProvider(new PathProvider())
             ->addServiceProvider(new ConfigurationProvider())
+            ->addServiceProvider(new ApplicationServiceProvider())
             ->addServiceProvider(new ApiProductsServiceProvider())
+            ->addServiceProvider(new ApiCustomersServiceProvider())
+            ->addServiceProvider(new ModuleCustomersServiceProvider())
             ->addServiceProvider(new CommandsServiceProvider())
-            ->addServiceProvider(new CommandBusServiceProvider())
-            ->addServiceProvider(new ModuleCustomersServiceProvider());
+            ->addServiceProvider(new CommandBusServiceProvider());
 
         $container
             ->add(self::CONTAINER_COMMAND_HANDLER_KEY, CommandHandler::class)

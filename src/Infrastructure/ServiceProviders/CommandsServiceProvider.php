@@ -5,6 +5,7 @@ namespace App\Infrastructure\ServiceProviders;
 use App\Module\Customers\Application\AddCustomersCommand;
 use App\Module\Customers\Application\AddCustomersCommandHandler;
 use App\Module\Customers\Domain\Service\CustomerDataProviderInterface;
+use App\Module\Customers\Domain\Service\CustomerGeneratorInterface;
 use League\Container\Argument\Literal\ArrayArgument;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
@@ -29,6 +30,11 @@ class CommandsServiceProvider extends AbstractServiceProvider
 
         $container
             ->add(AddCustomersCommandHandler::class)
-            ->addArgument(CustomerDataProviderInterface::class);
+            ->addArguments(
+                [
+                    CustomerDataProviderInterface::class,
+                    CustomerGeneratorInterface::class
+                ]
+            );
     }
 }

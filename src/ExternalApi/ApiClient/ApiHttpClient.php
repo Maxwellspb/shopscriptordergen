@@ -2,10 +2,9 @@
 
 namespace App\ExternalApi\ApiClient;
 
-use App\ExternalApi\Products\DataProvider\ProductApiHttpClientInterface;
 use GuzzleHttp\ClientInterface;
 
-readonly class ShopApiHttpClient implements ProductApiHttpClientInterface
+readonly class ApiHttpClient
 {
     public function __construct(
         private ClientInterface $client,
@@ -30,5 +29,18 @@ readonly class ShopApiHttpClient implements ProductApiHttpClientInterface
         $result = $this->client->request('GET', $url, $parameters);
 
         return json_decode($result->getBody()->getContents(), true);
+    }
+
+    public function post(string $route, array $body): void
+    {
+        $body['format'] = 'json';
+        $parameters = [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $this->authToken,
+            ],
+            'form_params' => $body,
+        ];
+
+        $this->client->request('POST', $route, $parameters);
     }
 }

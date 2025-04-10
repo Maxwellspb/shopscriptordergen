@@ -9,8 +9,7 @@ class CommandHandler
 {
     public function __construct(
         private CommandBus $commandBus,
-    )
-    {
+    ) {
     }
 
     public function handle(array $args): void

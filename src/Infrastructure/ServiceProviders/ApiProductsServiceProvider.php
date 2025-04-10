@@ -2,9 +2,8 @@
 
 namespace App\Infrastructure\ServiceProviders;
 
-use App\ExternalApi\ApiClient\ShopApiHttpClient;
+use App\ExternalApi\ApiClient\ApiHttpClient;
 use App\ExternalApi\Products\DataProvider\ApiProductMapper;
-use App\ExternalApi\Products\DataProvider\ProductApiHttpClientInterface;
 use App\ExternalApi\Products\DataProvider\ProductsApi;
 use GuzzleHttp\ClientInterface;
 use League\Container\Argument\Literal\StringArgument;
@@ -16,7 +15,7 @@ class ApiProductsServiceProvider extends AbstractServiceProvider
     {
         $services = [
             ProductsApi::class,
-            ProductApiHttpClientInterface::class,
+            ApiHttpClient::class,
             ApiProductMapper::class
         ];
 
@@ -31,13 +30,13 @@ class ApiProductsServiceProvider extends AbstractServiceProvider
             ->add(ProductsApi::class)
             ->addArguments(
                 [
-                    ProductApiHttpClientInterface::class,
+                    ApiHttpClient::class,
                     ApiProductMapper::class,
                 ]
             );
 
         $container
-            ->add(ProductApiHttpClientInterface::class, ShopApiHttpClient::class)
+            ->add(ApiHttpClient::class)
             ->addArguments(
                 [
                     ClientInterface::class,

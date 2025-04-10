@@ -2,16 +2,16 @@
 
 namespace App\Infrastructure\ServiceProviders;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
+use App\ExternalApi\ApiClient\ApiHttpClient;
+use App\ExternalApi\Customers\DataProvider\CustomersApi;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
-class ApplicationServiceProvider extends AbstractServiceProvider
+class ApiCustomersServiceProvider extends AbstractServiceProvider
 {
     public function provides(string $id): bool
     {
         $services = [
-            ClientInterface::class,
+            CustomersApi::class,
         ];
 
         return in_array($id, $services);
@@ -22,6 +22,7 @@ class ApplicationServiceProvider extends AbstractServiceProvider
         $container = $this->getContainer();
 
         $container
-            ->add(ClientInterface::class, Client::class);
+            ->add(CustomersApi::class)
+            ->addArgument(ApiHttpClient::class);
     }
 }
