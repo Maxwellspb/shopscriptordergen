@@ -4,6 +4,7 @@ namespace App\ExternalApi\Orders\DataProvider;
 
 use App\ExternalApi\ApiClient\ApiHttpClient;
 use App\ExternalApi\ApiClient\ApiResourcesEnum;
+use App\ExternalApi\Orders\Model\AddOrderResultDto;
 use App\ExternalApi\Orders\Model\ApiOrderDto;
 use App\ExternalApi\Orders\Normalizer\ApiOrderNormalizer;
 
@@ -15,7 +16,7 @@ final readonly class OrdersApi
     ) {
     }
 
-    public function addOrder(ApiOrderDto $apiOrderDto): void
+    public function addOrder(ApiOrderDto $apiOrderDto): AddOrderResultDto
     {
         $orderData = $this->apiOrderNormalizer->normalize($apiOrderDto);
 
@@ -23,6 +24,8 @@ final readonly class OrdersApi
             ApiResourcesEnum::SHOP_ORDER_ADD->value,
             $orderData
         );
+
+        return AddOrderResultDto::fromResponse($addOrderResultData);
     }
 
     public function completeOrder(int $orderId): void

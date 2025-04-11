@@ -2,6 +2,7 @@
 
 namespace App\ExternalApi\Orders\Model;
 
+use DateTime;
 use DateTimeInterface;
 
 readonly class AddOrderResultDto
@@ -13,5 +14,16 @@ readonly class AddOrderResultDto
         public float $total,
         public float $discount,
     ) {
+    }
+
+    public static function fromResponse(array $response): AddOrderResultDto
+    {
+        return new self(
+            (int) $response['id'],
+            (int) $response['contact_id'],
+            new DateTime($response['creat_datetime']),
+            (float) $response['total'],
+            (float) $response['discount'],
+        );
     }
 }
