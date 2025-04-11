@@ -19,8 +19,18 @@ final readonly class OrdersApi
     {
         $orderData = $this->apiOrderNormalizer->normalize($apiOrderDto);
 
-        $this->apiHttpClient->post(
+        $addOrderResultData = $this->apiHttpClient->post(
             ApiResourcesEnum::SHOP_ORDER_ADD->value,
+            $orderData
+        );
+    }
+
+    public function completeOrder(int $orderId): void
+    {
+        $orderData = ['id' => $orderId];
+
+        $this->apiHttpClient->post(
+            ApiResourcesEnum::SHOP_ORDER_COMPLETE->value,
             $orderData
         );
     }

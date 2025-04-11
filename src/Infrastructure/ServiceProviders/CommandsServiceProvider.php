@@ -12,6 +12,8 @@ use App\Module\Customers\Domain\Customer\DataProvider\InternalCustomersDataProvi
 use App\Module\Customers\Domain\Customer\Service\CustomersGeneratorInterface;
 use App\Module\Order\Application\AddApiOrderCommand;
 use App\Module\Order\Application\AddApiOrderCommandHandler;
+use App\Module\Order\Application\CompleteApiOrderCommand;
+use App\Module\Order\Application\CompleteApiOrderCommandHandler;
 use League\Container\Argument\Literal\ArrayArgument;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
@@ -23,6 +25,7 @@ class CommandsServiceProvider extends AbstractServiceProvider
         AddExternalCustomersCommand::class => AddExternalCustomersCommandHandler::class,
         ListExternalCustomersQuery::class => ListExternalCustomersQueryHandler::class,
         AddApiOrderCommand::class => AddApiOrderCommandHandler::class,
+        CompleteApiOrderCommand::class => CompleteApiOrderCommandHandler::class,
     ];
 
     public function provides(string $id): bool
@@ -51,6 +54,10 @@ class CommandsServiceProvider extends AbstractServiceProvider
 
         $container
             ->add(AddApiOrderCommandHandler::class)
+            ->addArgument(OrdersApi::class);
+
+        $container
+            ->add(CompleteApiOrderCommandHandler::class)
             ->addArgument(OrdersApi::class);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Module\Order\Application;
 
-class AddApiOrderCommand
+final readonly class AddApiOrderCommand
 {
 
 }

@@ -26,12 +26,12 @@ readonly class ApiHttpClient
             'query' => $parameters,
         ];
 
-        $result = $this->client->request('GET', $url, $parameters);
+        $response = $this->client->request('GET', $url, $parameters);
 
-        return json_decode($result->getBody()->getContents(), true);
+        return json_decode($response->getBody()->getContents(), true);
     }
 
-    public function post(string $route, array $body): void
+    public function post(string $route, array $body): array
     {
         $body['format'] = 'json';
 
@@ -44,6 +44,8 @@ readonly class ApiHttpClient
             'form_params' => $body,
         ];
 
-        $this->client->request('POST', $url, $parameters);
+        $response = $this->client->request('POST', $url, $parameters);
+
+        return json_decode($response->getBody()->getContents(), true);
     }
 }
