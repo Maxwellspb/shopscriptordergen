@@ -2,7 +2,9 @@
 
 namespace App\Infrastructure\ServiceProviders;
 
+use App\ExternalApi\Customers\DataProvider\CustomersApi;
 use App\ExternalApi\Orders\DataProvider\OrdersApi;
+use App\ExternalApi\Products\DataProvider\ProductsApi;
 use App\Module\Customers\Application\AddExternalCustomersCommand;
 use App\Module\Customers\Application\AddExternalCustomersCommandHandler;
 use App\Module\Customers\Application\ListExternalCustomersQuery;
@@ -14,6 +16,8 @@ use App\Module\Order\Application\AddApiOrderCommand;
 use App\Module\Order\Application\AddApiOrderCommandHandler;
 use App\Module\Order\Application\CompleteApiOrderCommand;
 use App\Module\Order\Application\CompleteApiOrderCommandHandler;
+use App\Module\Order\Application\MassGenerateOrdersCommand;
+use App\Module\Order\Application\MassGenerateOrdersCommandHandler;
 use League\Container\Argument\Literal\ArrayArgument;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
@@ -26,6 +30,7 @@ class CommandsServiceProvider extends AbstractServiceProvider
         ListExternalCustomersQuery::class => ListExternalCustomersQueryHandler::class,
         AddApiOrderCommand::class => AddApiOrderCommandHandler::class,
         CompleteApiOrderCommand::class => CompleteApiOrderCommandHandler::class,
+        MassGenerateOrdersCommand::class => MassGenerateOrdersCommandHandler::class,
     ];
 
     public function provides(string $id): bool
@@ -59,5 +64,13 @@ class CommandsServiceProvider extends AbstractServiceProvider
         $container
             ->add(CompleteApiOrderCommandHandler::class)
             ->addArgument(OrdersApi::class);
+
+        $container
+            ->add(MassGenerateOrdersCommandHandler::class)
+            ->addArguments([
+                CustomersApi::class,
+                OrdersApi::class,
+                ProductsApi::class,
+            ]);
     }
 }

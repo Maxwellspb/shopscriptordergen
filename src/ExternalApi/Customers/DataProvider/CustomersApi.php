@@ -4,6 +4,7 @@ namespace App\ExternalApi\Customers\DataProvider;
 
 use App\ExternalApi\ApiClient\ApiHttpClient;
 use App\ExternalApi\ApiClient\ApiResourcesEnum;
+use App\ExternalApi\Customers\Model\ApiCustomerDto;
 
 final readonly class CustomersApi
 {
@@ -28,6 +29,9 @@ final readonly class CustomersApi
         );
     }
 
+    /**
+     * @return ApiCustomerDto[]
+     */
     public function listCustomers(): array
     {
         $apiCustomersList = $this->apiHttpClient->get(

@@ -14,7 +14,6 @@ final readonly class ApiCustomersDataProvider implements ExternalCustomersDataPr
 
     public function fetchCustomerData(): array
     {
-        $apiCustomers = $this->customersApi->listCustomers();
-        print_r($apiCustomers);
+        return $this->customersApi->listCustomers();
     }
 }

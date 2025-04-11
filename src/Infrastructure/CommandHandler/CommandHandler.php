@@ -2,9 +2,7 @@
 
 namespace App\Infrastructure\CommandHandler;
 
-use App\Module\Customers\Application\AddExternalCustomersCommand;
-use App\Module\Customers\Application\ListExternalCustomersQuery;
-use App\Module\Order\Application\AddApiOrderCommand;
+use App\Module\Order\Application\MassGenerateOrdersCommand;
 use League\Tactician\CommandBus;
 
 class CommandHandler
@@ -16,6 +14,6 @@ class CommandHandler
 
     public function handle(array $args): void
     {
-        $this->commandBus->handle(new AddApiOrderCommand());
+        $this->commandBus->handle(new MassGenerateOrdersCommand());
     }
 }

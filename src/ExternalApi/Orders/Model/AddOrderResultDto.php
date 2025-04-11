@@ -21,7 +21,7 @@ readonly class AddOrderResultDto
         return new self(
             (int) $response['id'],
             (int) $response['contact_id'],
-            new DateTime($response['creat_datetime']),
+            new DateTime($response['create_datetime']),
             (float) $response['total'],
             (float) $response['discount'],
         );
