@@ -4,6 +4,7 @@ namespace App\Infrastructure\ServiceProviders;
 
 use App\ExternalApi\ApiClient\ApiHttpClient;
 use App\ExternalApi\Orders\DataProvider\OrdersApi;
+use App\ExternalApi\Orders\Normalizer\ApiOrderNormalizer;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
 class ApiOrdersServiceProvider extends AbstractServiceProvider
@@ -12,6 +13,7 @@ class ApiOrdersServiceProvider extends AbstractServiceProvider
     {
         $services = [
             OrdersApi::class,
+            ApiOrderNormalizer::class
         ];
 
         return in_array($id, $services);
@@ -23,6 +25,11 @@ class ApiOrdersServiceProvider extends AbstractServiceProvider
 
         $container
             ->add(OrdersApi::class)
-            ->addArgument(ApiHttpClient::class);
+            ->addArguments([
+                ApiHttpClient::class,
+                ApiOrderNormalizer::class,
+            ]);
+
+        $container->add(ApiOrderNormalizer::class);
     }
 }

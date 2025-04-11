@@ -3,7 +3,7 @@
 namespace App\Module\Customers\Infrastructure;
 
 use App\ExternalApi\Customers\DataProvider\CustomersApi;
-use App\Module\Customers\Domain\DataProvider\ExternalCustomersDataProviderInterface;
+use App\Module\Customers\Domain\Customer\DataProvider\ExternalCustomersDataProviderInterface;
 
 final readonly class ApiCustomersDataProvider implements ExternalCustomersDataProviderInterface
 {

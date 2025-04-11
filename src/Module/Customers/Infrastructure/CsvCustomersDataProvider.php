@@ -2,9 +2,9 @@
 
 namespace App\Module\Customers\Infrastructure;
 
-use App\Module\Customers\Domain\DataProvider\CustomerNormalizer;
-use App\Module\Customers\Domain\DataProvider\InternalCustomersDataProviderInterface;
-use App\Module\Customers\Domain\Model\Customer;
+use App\Module\Customers\Domain\Customer\DataProvider\CustomerNormalizer;
+use App\Module\Customers\Domain\Customer\DataProvider\InternalCustomersDataProviderInterface;
+use App\Module\Customers\Domain\Customer\Model\Customer;
 
 readonly class CsvCustomersDataProvider implements InternalCustomersDataProviderInterface
 {

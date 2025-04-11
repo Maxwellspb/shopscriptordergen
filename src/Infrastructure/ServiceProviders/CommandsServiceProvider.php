@@ -6,9 +6,9 @@ use App\Module\Customers\Application\AddExternalCustomersCommand;
 use App\Module\Customers\Application\AddExternalCustomersCommandHandler;
 use App\Module\Customers\Application\ListExternalCustomersQuery;
 use App\Module\Customers\Application\ListExternalCustomersQueryHandler;
-use App\Module\Customers\Domain\DataProvider\ExternalCustomersDataProviderInterface;
-use App\Module\Customers\Domain\DataProvider\InternalCustomersDataProviderInterface;
-use App\Module\Customers\Domain\Service\CustomersGeneratorInterface;
+use App\Module\Customers\Domain\Customer\DataProvider\ExternalCustomersDataProviderInterface;
+use App\Module\Customers\Domain\Customer\DataProvider\InternalCustomersDataProviderInterface;
+use App\Module\Customers\Domain\Customer\Service\CustomersGeneratorInterface;
 use League\Container\Argument\Literal\ArrayArgument;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 

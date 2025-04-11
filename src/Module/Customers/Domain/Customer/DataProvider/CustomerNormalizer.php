@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Module\Customers\Domain\DataProvider;
+namespace App\Module\Customers\Domain\Customer\DataProvider;
 
-use App\Module\Customers\Domain\Model\Customer;
+use App\Module\Customers\Domain\Customer\Model\Customer;
 
 class CustomerNormalizer
 {

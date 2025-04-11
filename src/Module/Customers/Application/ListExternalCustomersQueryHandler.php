@@ -2,8 +2,7 @@
 
 namespace App\Module\Customers\Application;
 
-use App\ExternalApi\Customers\DataProvider\CustomersApi;
-use App\Module\Customers\Domain\DataProvider\ExternalCustomersDataProviderInterface;
+use App\Module\Customers\Domain\Customer\DataProvider\ExternalCustomersDataProviderInterface;
 
 final readonly class ListExternalCustomersQueryHandler
 {

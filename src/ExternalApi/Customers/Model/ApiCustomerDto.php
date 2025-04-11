@@ -11,6 +11,7 @@ readonly class ApiCustomerDto
         public string $lastName,
         public string $email,
         public string $sex,
+        public float $affiliateBonus = 0.00
     ) {
     }
 }

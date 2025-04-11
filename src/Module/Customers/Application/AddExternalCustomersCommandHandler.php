@@ -2,8 +2,8 @@
 
 namespace App\Module\Customers\Application;
 
-use App\Module\Customers\Domain\DataProvider\InternalCustomersDataProviderInterface;
-use App\Module\Customers\Domain\Service\CustomersGeneratorInterface;
+use App\Module\Customers\Domain\Customer\DataProvider\InternalCustomersDataProviderInterface;
+use App\Module\Customers\Domain\Customer\Service\CustomersGeneratorInterface;
 
 readonly class AddExternalCustomersCommandHandler
 {

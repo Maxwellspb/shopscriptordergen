@@ -22,6 +22,7 @@ class ApiCustomersMapper
                 lastName: $customer['lastname'],
                 email: $customer['email'][0],
                 sex: $customer['sex'],
+                affiliateBonus: (float) $customer['affiliate_bonus'],
             );
         }
 

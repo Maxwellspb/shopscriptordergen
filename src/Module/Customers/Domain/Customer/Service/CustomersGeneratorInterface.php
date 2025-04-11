@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Module\Customers\Domain\Service;
+namespace App\Module\Customers\Domain\Customer\Service;
 
-use App\Module\Customers\Domain\Model\Customer;
+use App\Module\Customers\Domain\Customer\Model\Customer;
 
 interface CustomersGeneratorInterface
 {

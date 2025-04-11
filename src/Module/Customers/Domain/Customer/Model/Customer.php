@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Module\Customers\Domain\Model;
+namespace App\Module\Customers\Domain\Customer\Model;
 
 readonly class Customer
 {

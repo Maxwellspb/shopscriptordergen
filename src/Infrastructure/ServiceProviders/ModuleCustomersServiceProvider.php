@@ -3,10 +3,10 @@
 namespace App\Infrastructure\ServiceProviders;
 
 use App\ExternalApi\Customers\DataProvider\CustomersApi;
-use App\Module\Customers\Domain\DataProvider\CustomerNormalizer;
-use App\Module\Customers\Domain\DataProvider\ExternalCustomersDataProviderInterface;
-use App\Module\Customers\Domain\DataProvider\InternalCustomersDataProviderInterface;
-use App\Module\Customers\Domain\Service\CustomersGeneratorInterface;
+use App\Module\Customers\Domain\Customer\DataProvider\CustomerNormalizer;
+use App\Module\Customers\Domain\Customer\DataProvider\ExternalCustomersDataProviderInterface;
+use App\Module\Customers\Domain\Customer\DataProvider\InternalCustomersDataProviderInterface;
+use App\Module\Customers\Domain\Customer\Service\CustomersGeneratorInterface;
 use App\Module\Customers\Infrastructure\ApiCustomersDataProvider;
 use App\Module\Customers\Infrastructure\ApiCustomersGenerator;
 use App\Module\Customers\Infrastructure\CsvCustomersDataProvider;

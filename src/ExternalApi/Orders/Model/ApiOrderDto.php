@@ -2,12 +2,15 @@
 
 namespace App\ExternalApi\Orders\Model;
 
-class ApiOrderDto
+use DateTimeInterface;
+
+readonly class ApiOrderDto
 {
     public function __construct(
-
-    )
-    {
-
+        public int $contactId,
+        public DateTimeInterface $creatDatetime,
+        public bool $forceAffiliate = false,
+        public array $orderItems = [],
+    ) {
     }
 }
