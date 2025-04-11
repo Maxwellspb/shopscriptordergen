@@ -15,7 +15,7 @@ final readonly class OrdersApi
     ) {
     }
 
-    public function placeOrder(ApiOrderDto $apiOrderDto): void
+    public function addOrder(ApiOrderDto $apiOrderDto): void
     {
         $orderData = $this->apiOrderNormalizer->normalize($apiOrderDto);
 
