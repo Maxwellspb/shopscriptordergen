@@ -18,7 +18,7 @@ final readonly class AddApiOrderCommandHandler
     {
         $apiOrder = new ApiOrderDto(
             1,
-            new DateTime('2024-05-01 15:00:00'),
+            new DateTime('2024-07-01 15:00:00'),
             true,
             [
                 new ApiOrderItemDto(

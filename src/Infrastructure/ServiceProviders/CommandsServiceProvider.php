@@ -18,6 +18,8 @@ use App\Module\Order\Application\CompleteApiOrderCommand;
 use App\Module\Order\Application\CompleteApiOrderCommandHandler;
 use App\Module\Order\Application\MassGenerateOrdersCommand;
 use App\Module\Order\Application\MassGenerateOrdersCommandHandler;
+use App\Module\Order\Application\RefundApiOrderCommand;
+use App\Module\Order\Application\RefundApiOrderCommandHandler;
 use League\Container\Argument\Literal\ArrayArgument;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
@@ -31,6 +33,7 @@ class CommandsServiceProvider extends AbstractServiceProvider
         AddApiOrderCommand::class => AddApiOrderCommandHandler::class,
         CompleteApiOrderCommand::class => CompleteApiOrderCommandHandler::class,
         MassGenerateOrdersCommand::class => MassGenerateOrdersCommandHandler::class,
+        RefundApiOrderCommand::class => RefundApiOrderCommandHandler::class,
     ];
 
     public function provides(string $id): bool
@@ -72,5 +75,9 @@ class CommandsServiceProvider extends AbstractServiceProvider
                 OrdersApi::class,
                 ProductsApi::class,
             ]);
+
+        $container
+            ->add(RefundApiOrderCommandHandler::class)
+            ->addArgument(OrdersApi::class);
     }
 }

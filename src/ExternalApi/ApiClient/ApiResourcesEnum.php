@@ -9,4 +9,5 @@ enum ApiResourcesEnum: string
     case SHOP_CUSTOMER_SEARCH = 'shop.customer.search';
     case SHOP_ORDER_ADD = 'shop.order.add';
     case SHOP_ORDER_COMPLETE = 'shop.order.complete';
+    case SHOP_ORDER_ACTION = 'shop.order.action';
 }

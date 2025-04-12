@@ -10,6 +10,8 @@ use App\ExternalApi\Orders\Normalizer\ApiOrderNormalizer;
 
 final readonly class OrdersApi
 {
+    private const string ACTION_REFUND = 'refund';
+
     public function __construct(
         private ApiHttpClient $apiHttpClient,
         private ApiOrderNormalizer $apiOrderNormalizer,
@@ -26,6 +28,19 @@ final readonly class OrdersApi
         );
 
         return AddOrderResultDto::fromResponse($addOrderResultData);
+    }
+
+    public function refundOrder(int $orderId): void
+    {
+        $orderData = [
+            'id' => $orderId,
+            'action' => self::ACTION_REFUND
+        ];
+
+        $this->apiHttpClient->post(
+            ApiResourcesEnum::SHOP_ORDER_ACTION->value,
+            $orderData
+        );
     }
 
     public function completeOrder(int $orderId): void

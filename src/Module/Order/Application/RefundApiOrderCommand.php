@@ -2,10 +2,10 @@
 
 namespace App\Module\Order\Application;
 
-final readonly class CompleteApiOrderCommand
+readonly class RefundApiOrderCommand
 {
     public function __construct(
-        public int $orderId,
+        public int $orderId
     ) {
     }
 }

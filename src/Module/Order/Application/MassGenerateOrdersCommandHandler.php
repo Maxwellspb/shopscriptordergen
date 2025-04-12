@@ -65,6 +65,15 @@ final readonly class MassGenerateOrdersCommandHandler
                 ]);
 
                 $this->ordersApi->completeOrder($orderResult->orderId);
+
+                if (array_rand(range(0,50)) > 40) {
+                    $this->ordersApi->refundOrder($orderResult->orderId);
+                    print_r(
+                        [
+                            'order_refunded' =>  $orderResult->orderId
+                        ]
+                    );
+                }
             }
 
             $currentDate->modify('+1 day');
