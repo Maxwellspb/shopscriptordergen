@@ -2,7 +2,7 @@
 
 namespace App\Module\Customers\Application;
 
-final readonly class ListExternalCustomersQuery
+final readonly class AddApiCustomersCommand
 {
 
 }

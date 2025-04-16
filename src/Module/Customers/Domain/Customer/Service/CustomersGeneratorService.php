@@ -1,18 +1,17 @@
 <?php
 
-namespace App\Module\Customers\Infrastructure;
+namespace App\Module\Customers\Domain\Customer\Service;
 
-use App\ExternalApi\Customers\DataProvider\CustomersApi;
 use App\Module\Customers\Domain\Customer\DataProvider\CustomerNormalizer;
 use App\Module\Customers\Domain\Customer\Model\Customer;
-use App\Module\Customers\Domain\Customer\Service\CustomersGeneratorInterface;
 
-final readonly class ApiCustomersGenerator implements CustomersGeneratorInterface
+class CustomersGeneratorService
 {
     public function __construct(
-        private CustomersApi $customersApi,
         private CustomerNormalizer $customerSerializer,
-    ) {
+        private CustomersApiInterface $customersApi,
+    )
+    {
     }
 
     /**
@@ -28,7 +27,7 @@ final readonly class ApiCustomersGenerator implements CustomersGeneratorInterfac
 
             $this
                 ->customersApi
-                ->createSingleCustomer($normalizedCustomer);
+                ->createCustomer($normalizedCustomer);
         }
     }
 }

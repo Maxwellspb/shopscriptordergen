@@ -9,22 +9,20 @@ class CustomerNormalizer
     public function normalize(Customer $customer): array
     {
         return [
-            'full_name' => $customer->fullName,
             'name' => $customer->name,
-            'surname' => $customer->surname,
+            'firstname' => $customer->firstName,
+            'lastname' => $customer->lastName,
             'email' => $customer->email,
-            'sex' => $customer->sex,
         ];
     }
 
-    public function denormalize(array $customerData)
+    public function denormalize(array $customerData): Customer
     {
         return new Customer(
-            fullName: $customerData['full_name'],
             name: $customerData['name'],
-            surname: $customerData['surname'],
+            firstName: $customerData['firstname'],
+            lastName: $customerData['lastname'],
             email: $customerData['email'],
-            sex: $customerData['sex'],
         );
     }
 }

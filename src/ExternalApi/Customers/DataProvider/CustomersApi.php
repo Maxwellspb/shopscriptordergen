@@ -14,14 +14,14 @@ final readonly class CustomersApi
     ) {
     }
 
-    public function createSingleCustomer(array $customerData): void
+    public function createCustomer(array $customerData): void
     {
         $body = [];
-        $body['data']['name'] = $customerData['full_name'];
+        $body['data']['name'] = $customerData['name'];
         $body['data']['firstname'] = $customerData['name'];
         $body['data']['lastname'] = $customerData['surname'];
         $body['data']['email'] = $customerData['email'];
-        $body['data']['sex'] = $customerData['sex'];
+        $body['data']['create_datetime'] = '2023-01-01 12:00:00';
 
         $this->apiHttpClient->post(
             ApiResourcesEnum::SHOP_CUSTOMER_ADD->value,

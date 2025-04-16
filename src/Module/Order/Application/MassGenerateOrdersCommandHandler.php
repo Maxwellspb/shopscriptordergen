@@ -23,7 +23,7 @@ final readonly class MassGenerateOrdersCommandHandler
     public function __invoke(MassGenerateOrdersCommand $command)
     {
         $dateStart = new DateTime('2023-01-01 08:00:00');
-        $dateEnd = new DateTime('2025-04-11 20:00:00');
+        $dateEnd = new DateTime('2025-04-12 20:00:00');
 
         $apiCustomers = $this->customersApi->listCustomers();
         $apiProducts = $this->productsApi->listProducts();
@@ -47,7 +47,7 @@ final readonly class MassGenerateOrdersCommandHandler
                 $orderDto = new ApiOrderDto(
                     $customer->id,
                     $operationDate,
-                    true,
+                    array_rand(range(0,100)) > 90,
                     [
                         new ApiOrderItemDto(
                             $apiProducts[$productKey]->skuId,
@@ -66,7 +66,7 @@ final readonly class MassGenerateOrdersCommandHandler
 
                 $this->ordersApi->completeOrder($orderResult->orderId);
 
-                if (array_rand(range(0,50)) > 40) {
+                if (array_rand(range(0,100)) > 90) {
                     $this->ordersApi->refundOrder($orderResult->orderId);
                     print_r(
                         [

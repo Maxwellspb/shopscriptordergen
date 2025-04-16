@@ -5,13 +5,14 @@ namespace App\Infrastructure\ServiceProviders;
 use App\ExternalApi\Customers\DataProvider\CustomersApi;
 use App\ExternalApi\Orders\DataProvider\OrdersApi;
 use App\ExternalApi\Products\DataProvider\ProductsApi;
-use App\Module\Customers\Application\AddExternalCustomersCommand;
-use App\Module\Customers\Application\AddExternalCustomersCommandHandler;
-use App\Module\Customers\Application\ListExternalCustomersQuery;
-use App\Module\Customers\Application\ListExternalCustomersQueryHandler;
-use App\Module\Customers\Domain\Customer\DataProvider\ExternalCustomersDataProviderInterface;
-use App\Module\Customers\Domain\Customer\DataProvider\InternalCustomersDataProviderInterface;
+use App\Module\Customers\Application\AddApiCustomersCommand;
+use App\Module\Customers\Application\AddApiCustomersCommandHandler;
+use App\Module\Customers\Application\ListApiCustomersQuery;
+use App\Module\Customers\Application\ListApiCustomersQueryHandler;
+use App\Module\Customers\Domain\Customer\DataProvider\ApiCustomersProviderInterface;
+use App\Module\Customers\Domain\Customer\DataProvider\CustomersDataProviderInterface;
 use App\Module\Customers\Domain\Customer\Service\CustomersGeneratorInterface;
+use App\Module\Customers\Domain\Customer\Service\CustomersGeneratorService;
 use App\Module\Order\Application\AddApiOrderCommand;
 use App\Module\Order\Application\AddApiOrderCommandHandler;
 use App\Module\Order\Application\CompleteApiOrderCommand;
@@ -28,8 +29,8 @@ class CommandsServiceProvider extends AbstractServiceProvider
     public const string CONTAINER_MAP_KEY = 'command_handler_map';
 
     private array $commandHandlerMap = [
-        AddExternalCustomersCommand::class => AddExternalCustomersCommandHandler::class,
-        ListExternalCustomersQuery::class => ListExternalCustomersQueryHandler::class,
+        AddApiCustomersCommand::class => AddApiCustomersCommandHandler::class,
+        ListApiCustomersQuery::class => ListApiCustomersQueryHandler::class,
         AddApiOrderCommand::class => AddApiOrderCommandHandler::class,
         CompleteApiOrderCommand::class => CompleteApiOrderCommandHandler::class,
         MassGenerateOrdersCommand::class => MassGenerateOrdersCommandHandler::class,
@@ -48,17 +49,17 @@ class CommandsServiceProvider extends AbstractServiceProvider
         $container->add(self::CONTAINER_MAP_KEY, new ArrayArgument($this->commandHandlerMap));
 
         $container
-            ->add(AddExternalCustomersCommandHandler::class)
+            ->add(AddApiCustomersCommandHandler::class)
             ->addArguments(
                 [
-                    InternalCustomersDataProviderInterface::class,
-                    CustomersGeneratorInterface::class
+                    CustomersDataProviderInterface::class,
+                    CustomersGeneratorService::class
                 ]
             );
 
         $container
-            ->add(ListExternalCustomersQueryHandler::class)
-            ->addArgument(ExternalCustomersDataProviderInterface::class);
+            ->add(ListApiCustomersQueryHandler::class)
+            ->addArgument(ApiCustomersProviderInterface::class);
 
         $container
             ->add(AddApiOrderCommandHandler::class)

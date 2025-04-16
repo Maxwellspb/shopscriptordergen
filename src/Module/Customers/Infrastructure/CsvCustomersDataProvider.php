@@ -3,10 +3,10 @@
 namespace App\Module\Customers\Infrastructure;
 
 use App\Module\Customers\Domain\Customer\DataProvider\CustomerNormalizer;
-use App\Module\Customers\Domain\Customer\DataProvider\InternalCustomersDataProviderInterface;
+use App\Module\Customers\Domain\Customer\DataProvider\CustomersDataProviderInterface;
 use App\Module\Customers\Domain\Customer\Model\Customer;
 
-readonly class CsvCustomersDataProvider implements InternalCustomersDataProviderInterface
+readonly class CsvCustomersDataProvider implements CustomersDataProviderInterface
 {
     public function __construct(
         private string $filePath,
