@@ -5,6 +5,7 @@ namespace App\Infrastructure\ServiceProviders;
 use App\ExternalApi\Customers\DataProvider\CustomersApi;
 use App\ExternalApi\Orders\DataProvider\OrdersApi;
 use App\ExternalApi\Products\DataProvider\ProductsApi;
+use App\Module\Common\Service\Generator\AmountGenerator;
 use App\Module\Customers\Application\AddApiCustomersCommand;
 use App\Module\Customers\Application\AddApiCustomersCommandHandler;
 use App\Module\Customers\Application\ListApiCustomersQuery;
@@ -72,9 +73,10 @@ class CommandsServiceProvider extends AbstractServiceProvider
         $container
             ->add(MassGenerateOrdersCommandHandler::class)
             ->addArguments([
-                CustomersApi::class,
-                OrdersApi::class,
-                ProductsApi::class,
+                CustomersDataProviderInterface::class,
+                CustomersGeneratorService::class,
+                AmountGenerator::class,
+                AmountGenerator::class,
             ]);
 
         $container

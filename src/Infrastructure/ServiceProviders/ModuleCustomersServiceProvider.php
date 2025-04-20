@@ -6,10 +6,10 @@ use App\ExternalApi\Customers\DataProvider\CustomersApi;
 use App\Module\Customers\Domain\Customer\DataProvider\CustomerNormalizer;
 use App\Module\Customers\Domain\Customer\DataProvider\ApiCustomersProviderInterface;
 use App\Module\Customers\Domain\Customer\DataProvider\CustomersDataProviderInterface;
-use App\Module\Customers\Domain\Customer\Service\CustomersApiInterface;
+use App\Module\Customers\Domain\Customer\Service\CustomersApiProviderInterface;
 use App\Module\Customers\Domain\Customer\Service\CustomersGeneratorService;
 use App\Module\Customers\Infrastructure\ApiCustomersProvider;
-use App\Module\Customers\Infrastructure\CustomersApiAdapter;
+use App\Module\Customers\Infrastructure\CustomersApiProvider;
 use App\Module\Customers\Infrastructure\CsvCustomersDataProvider;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
@@ -45,7 +45,7 @@ class ModuleCustomersServiceProvider extends AbstractServiceProvider
             ->addArguments(
                 [
                     CustomerNormalizer::class,
-                    CustomersApiInterface::class,
+                    CustomersApiProviderInterface::class,
                 ]
             );
 
@@ -54,7 +54,7 @@ class ModuleCustomersServiceProvider extends AbstractServiceProvider
             ->addArgument(CustomersApi::class);
 
         $container
-            ->add(CustomersApiInterface::class, CustomersApiAdapter::class)
+            ->add(CustomersApiProviderInterface::class, CustomersApiProvider::class)
             ->addArgument(CustomersApi::class);
 
         $container->add(CustomerNormalizer::class);

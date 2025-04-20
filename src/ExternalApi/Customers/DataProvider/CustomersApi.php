@@ -5,31 +5,38 @@ namespace App\ExternalApi\Customers\DataProvider;
 use App\ExternalApi\ApiClient\ApiHttpClient;
 use App\ExternalApi\ApiClient\ApiResourcesEnum;
 use App\ExternalApi\Customers\Model\ApiCustomerDto;
+use App\ExternalApi\Customers\Normalizer\ApiCustomerNormalizer;
+use App\ExternalApi\Customers\Normalizer\CreateCustomerRequestNormalizer;
 
 final readonly class CustomersApi
 {
     public function __construct(
         private ApiHttpClient $apiHttpClient,
-        private ApiCustomersMapper $apiCustomerMapper,
+        private CreateCustomerRequestNormalizer $createCustomerRequestNormalizer,
+        private ApiCustomerNormalizer $apiCustomerNormalizer,
     ) {
     }
 
-    public function createCustomer(array $customerData): void
+    public function createApiCustomer(CreateCustomerRequestDto $apiCustomerDto): ApiCustomerDto
     {
         $body = [];
-        $body['data']['name'] = $customerData['name'];
-        $body['data']['firstname'] = $customerData['name'];
-        $body['data']['lastname'] = $customerData['surname'];
-        $body['data']['email'] = $customerData['email'];
-        $body['data']['create_datetime'] = '2023-01-01 12:00:00';
 
-        $this->apiHttpClient->post(
+        $body['data'] = $this
+            ->createCustomerRequestNormalizer
+            ->normalize($apiCustomerDto);
+
+        $apiCustomerData = $this->apiHttpClient->post(
             ApiResourcesEnum::SHOP_CUSTOMER_ADD->value,
             $body
         );
+
+        return $this
+            ->apiCustomerNormalizer
+            ->denormalize($apiCustomerData);
     }
 
     /**
+     * todo add query context, what, how many
      * @return ApiCustomerDto[]
      */
     public function listCustomers(): array
@@ -39,6 +46,11 @@ final readonly class CustomersApi
             []
         );
 
-        return $this->apiCustomerMapper->map($apiCustomersList['customers']);
+        return array_map(
+            static fn (array $apiCustomerData) => $this
+                ->apiCustomerNormalizer
+                ->denormalize($apiCustomerData),
+            $apiCustomersList['customers']
+        );
     }
 }

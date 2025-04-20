@@ -9,6 +9,7 @@ use App\Infrastructure\ServiceProviders\ApiProductsServiceProvider;
 use App\Infrastructure\ServiceProviders\ApplicationServiceProvider;
 use App\Infrastructure\ServiceProviders\CommandBusServiceProvider;
 use App\Infrastructure\ServiceProviders\CommandsServiceProvider;
+use App\Infrastructure\ServiceProviders\CommonServicesProvider;
 use App\Infrastructure\ServiceProviders\ModuleCustomersServiceProvider;
 use League\Container\Container;
 use League\Container\DefinitionContainerInterface;
@@ -25,6 +26,7 @@ class ContainerFactory
         $container
             ->addServiceProvider(new PathProvider())
             ->addServiceProvider(new ConfigurationProvider())
+            ->addServiceProvider(new CommonServicesProvider())
             ->addServiceProvider(new ApplicationServiceProvider())
             ->addServiceProvider(new ApiProductsServiceProvider())
             ->addServiceProvider(new ApiCustomersServiceProvider())

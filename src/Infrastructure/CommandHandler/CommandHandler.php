@@ -18,10 +18,10 @@ class CommandHandler
 
     public function handle(array $args): void
     {
-        $this->commandBus->handle(new AddApiCustomersCommand());
+        //$this->commandBus->handle(new AddApiCustomersCommand());
         //$this->commandBus->handle(new AddApiOrderCommand());
         //$this->commandBus->handle(new CompleteApiOrderCommand(795));
         //$this->commandBus->handle(new RefundApiOrderCommand(795));
-        //$this->commandBus->handle(new MassGenerateOrdersCommand());
+        $this->commandBus->handle(new MassGenerateOrdersCommand());
     }
 }

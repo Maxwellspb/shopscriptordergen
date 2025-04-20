@@ -3,6 +3,7 @@
 namespace App\Module\Customers\Domain\Customer\DataProvider;
 
 use App\Module\Customers\Domain\Customer\Model\Customer;
+use DateTime;
 
 class CustomerNormalizer
 {
@@ -13,6 +14,7 @@ class CustomerNormalizer
             'firstname' => $customer->firstName,
             'lastname' => $customer->lastName,
             'email' => $customer->email,
+            'create_datetime' => $customer->getCreateDatetime() ?? new DateTime('now')
         ];
     }
 

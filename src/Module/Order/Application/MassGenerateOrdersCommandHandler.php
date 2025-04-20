@@ -2,25 +2,28 @@
 
 namespace App\Module\Order\Application;
 
-use App\ExternalApi\Customers\DataProvider\CustomersApi;
-use App\ExternalApi\Orders\DataProvider\OrdersApi;
-use App\ExternalApi\Orders\Model\ApiOrderDto;
-use App\ExternalApi\Orders\Model\ApiOrderItemDto;
-use App\ExternalApi\Products\DataProvider\ProductsApi;
+use App\Module\Common\Service\Generator\AmountGenerator;
+use App\Module\Common\Service\Generator\BooleanGenerator;
+use App\Module\Customers\Domain\Customer\DataProvider\CustomersDataProviderInterface;
+use App\Module\Customers\Domain\Customer\Model\Customer;
+use App\Module\Customers\Domain\Customer\Service\CustomersGeneratorService;
+use DateInterval;
+use DatePeriod;
 use DateTime;
+use DateTimeInterface;
 
 final readonly class MassGenerateOrdersCommandHandler
 {
-    //TODO Заменить CustomerApi на externaldata provider
     public function __construct(
-        private CustomersApi $customersApi,
-        private OrdersApi $ordersApi,
-        private ProductsApi $productsApi,
+        private CustomersDataProviderInterface $customersDataProvider,
+        private CustomersGeneratorService $customersGeneratorService,
+        private AmountGenerator $customersAmountGenerator,
+        private AmountGenerator $ordersAmountGenerator,
     )
     {
     }
 
-    public function __invoke(MassGenerateOrdersCommand $command)
+    /*public function __invoke(MassGenerateOrdersCommand $command)
     {
         $dateStart = new DateTime('2023-01-01 08:00:00');
         $dateEnd = new DateTime('2025-04-12 20:00:00');
@@ -36,7 +39,7 @@ final readonly class MassGenerateOrdersCommandHandler
                     break;
                 }
 
-                if (array_rand(range(1,3)) % 2 !== 0) {
+                if (array_rand(range(1, 3)) % 2 !== 0) {
                     continue;
                 }
 
@@ -47,11 +50,11 @@ final readonly class MassGenerateOrdersCommandHandler
                 $orderDto = new ApiOrderDto(
                     $customer->id,
                     $operationDate,
-                    array_rand(range(0,100)) > 90,
+                    array_rand(range(0, 100)) > 90,
                     [
                         new ApiOrderItemDto(
                             $apiProducts[$productKey]->skuId,
-                            rand(1,3)
+                            rand(1, 3)
                         )
                     ]
                 );
@@ -66,11 +69,11 @@ final readonly class MassGenerateOrdersCommandHandler
 
                 $this->ordersApi->completeOrder($orderResult->orderId);
 
-                if (array_rand(range(0,100)) > 90) {
+                if (array_rand(range(0, 100)) > 90) {
                     $this->ordersApi->refundOrder($orderResult->orderId);
                     print_r(
                         [
-                            'order_refunded' =>  $orderResult->orderId
+                            'order_refunded' => $orderResult->orderId
                         ]
                     );
                 }
@@ -78,5 +81,57 @@ final readonly class MassGenerateOrdersCommandHandler
 
             $currentDate->modify('+1 day');
         }
+    }*/
+
+    public function __invoke(MassGenerateOrdersCommand $command) : void
+    {
+        $period = $this->getPeriod();
+
+        $customerData = $this->customersDataProvider->fetchCustomerData();
+
+        foreach ($period as $operationDate) {
+            $this->generateCustomersWithOrders(clone $operationDate, $customerData);
+
+        }
+    }
+
+    private function generateCustomersWithOrders(DateTimeInterface $operationDate, array &$customerData): void
+    {
+        if (empty($customerData)) {
+            return;
+        }
+
+        if ($this->shouldSkip()) {
+            return;
+        }
+
+        $newCustomers = array_splice($customerData, 0, $this->customersAmountGenerator->nextInt());
+
+        /** @var Customer $newCustomer */
+        foreach ($newCustomers as $newCustomer) {
+            $operationDate->setTime(rand(8, 20), rand(0, 59), rand(0, 59));
+            $newCustomer->setCreateDatetime(clone $operationDate);
+
+            $apiCustomer = $this
+                ->customersGeneratorService
+                ->generateSingleCustomer($newCustomer);
+
+            $a = 1;
+        }
+    }
+
+    private function getPeriod() : DatePeriod
+    {
+        $dateStart = new DateTime('2023-01-01');
+        $dateEnd = new DateTime('2025-01-01');
+
+        $interval = DateInterval::createFromDateString('1 day');
+
+        return new DatePeriod($dateStart, $interval, $dateEnd);
+    }
+
+    private function shouldSkip(): bool
+    {
+        return BooleanGenerator::averageTrue();
     }
 }
