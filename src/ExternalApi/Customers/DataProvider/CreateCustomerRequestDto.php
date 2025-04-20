@@ -22,7 +22,7 @@ readonly class CreateCustomerRequestDto
             firstname: $customerData['firstname'],
             lastname: $customerData['lastname'],
             email: $customerData['email'],
-            createDatetime: $customerData['createDatetime'],
+            createDatetime: $customerData['create_datetime'],
         );
     }
 }

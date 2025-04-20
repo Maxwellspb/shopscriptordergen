@@ -17,25 +17,25 @@ class CustomersGeneratorService
 
     /**
      * @param Customer[] $customerData
-     * @return ApiCustomerDto[]
+     * @return int[]
      */
     public function generateMultipleCustomers(array $customerData): array
     {
-        $apiCustomers = [];
+        $apiCustomersIds = [];
         foreach ($customerData as $customer) {
-            $apiCustomers[] = $this->generateSingleCustomer($customer);
+             $this->generateSingleCustomer($customer);
         }
 
-        return $apiCustomers;
+        return $apiCustomersIds;
     }
 
     /**
      * @param Customer $customer
-     * @return ApiCustomerDto
+     * @return int|null
      */
     public function generateSingleCustomer(
         Customer $customer
-    ): ApiCustomerDto {
+    ): ?int {
         $normalizedCustomer = $this
             ->customerNormalizer
             ->normalize($customer);

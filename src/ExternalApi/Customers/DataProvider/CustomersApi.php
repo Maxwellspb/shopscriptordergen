@@ -17,7 +17,7 @@ final readonly class CustomersApi
     ) {
     }
 
-    public function createApiCustomer(CreateCustomerRequestDto $apiCustomerDto): ApiCustomerDto
+    public function createApiCustomer(CreateCustomerRequestDto $apiCustomerDto): ?int
     {
         $body = [];
 
@@ -30,9 +30,7 @@ final readonly class CustomersApi
             $body
         );
 
-        return $this
-            ->apiCustomerNormalizer
-            ->denormalize($apiCustomerData);
+        return $apiCustomerData['contact_id'] ?? null;
     }
 
     /**

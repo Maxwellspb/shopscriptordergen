@@ -8,7 +8,7 @@ interface CustomersApiProviderInterface
 {
     /**
      * @param array $customerData
-     * @return ApiCustomerDto
+     * @return int|null
      */
-    public function createCustomer(array $customerData): ApiCustomerDto;
+    public function createCustomer(array $customerData): ?int;
 }

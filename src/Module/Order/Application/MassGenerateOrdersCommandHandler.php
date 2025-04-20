@@ -90,8 +90,11 @@ final readonly class MassGenerateOrdersCommandHandler
         $customerData = $this->customersDataProvider->fetchCustomerData();
 
         foreach ($period as $operationDate) {
-            $this->generateCustomersWithOrders(clone $operationDate, $customerData);
+            if (empty($customerData)) {
+                break;
+            }
 
+            $this->generateCustomersWithOrders(clone $operationDate, $customerData);
         }
     }
 
@@ -101,22 +104,27 @@ final readonly class MassGenerateOrdersCommandHandler
             return;
         }
 
+        $customersAmount = $this->customersAmountGenerator->nextInt();
+
         if ($this->shouldSkip()) {
             return;
         }
 
-        $newCustomers = array_splice($customerData, 0, $this->customersAmountGenerator->nextInt());
+        $newCustomers = array_splice($customerData, 0, $customersAmount);
 
         /** @var Customer $newCustomer */
         foreach ($newCustomers as $newCustomer) {
             $operationDate->setTime(rand(8, 20), rand(0, 59), rand(0, 59));
             $newCustomer->setCreateDatetime(clone $operationDate);
 
-            $apiCustomer = $this
+            $apiCustomerId = $this
                 ->customersGeneratorService
                 ->generateSingleCustomer($newCustomer);
 
-            $a = 1;
+            print_r([
+                'customer_id' => $apiCustomerId,
+                'created_at' => $operationDate->format('Y-m-d H:i:s'),
+            ]);
         }
     }
 

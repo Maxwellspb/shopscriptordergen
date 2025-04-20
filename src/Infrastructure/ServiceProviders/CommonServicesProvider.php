@@ -23,6 +23,6 @@ class CommonServicesProvider extends AbstractServiceProvider
 
         $container
             ->add(AmountGenerator::class)
-            ->addArgument(new IntegerArgument(21));
+            ->addArgument(new IntegerArgument(8));
     }
 }

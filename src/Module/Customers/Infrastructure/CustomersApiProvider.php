@@ -16,9 +16,9 @@ final readonly class CustomersApiProvider implements CustomersApiProviderInterfa
 
     /**
      * @param array $customerData
-     * @return ApiCustomerDto
+     * @return int|null
      */
-    public function createCustomer(array $customerData): ApiCustomerDto
+    public function createCustomer(array $customerData): ?int
     {
         $createCustomerRequest = CreateCustomerRequestDto::fromArray($customerData);
 
