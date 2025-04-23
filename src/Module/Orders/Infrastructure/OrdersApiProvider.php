@@ -38,4 +38,9 @@ final readonly class OrdersApiProvider implements OrdersApiProviderInterface
 
         return $orderResponse->orderId;
     }
+
+    public function completeOrder(int $orderId): void
+    {
+        $this->ordersApi->completeOrder($orderId);
+    }
 }

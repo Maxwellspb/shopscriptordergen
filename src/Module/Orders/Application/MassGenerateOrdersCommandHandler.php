@@ -156,6 +156,10 @@ final readonly class MassGenerateOrdersCommandHandler
                 'customer_id' => $apiCustomerId,
                 'order_id' => $orderId,
             ]);
+
+            $this
+                ->ordersApiProvider
+                ->completeOrder($orderId);
         }
     }
 

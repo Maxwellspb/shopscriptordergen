@@ -19,4 +19,10 @@ interface OrdersApiProviderInterface
         ApiProductDto $productDto,
         DateTimeInterface $createDatetime,
     ): int;
+
+    /**
+     * @param int $orderId
+     * @return void
+     */
+    public function completeOrder(int $orderId): void;
 }
