@@ -15,7 +15,6 @@ class ApiProductsServiceProvider extends AbstractServiceProvider
     {
         $services = [
             ProductsApi::class,
-            ApiHttpClient::class,
             ApiProductMapper::class
         ];
 
@@ -32,16 +31,6 @@ class ApiProductsServiceProvider extends AbstractServiceProvider
                 [
                     ApiHttpClient::class,
                     ApiProductMapper::class,
-                ]
-            );
-
-        $container
-            ->add(ApiHttpClient::class)
-            ->addArguments(
-                [
-                    ClientInterface::class,
-                    new StringArgument($_ENV['BASE_API_URL']),
-                    new StringArgument($_ENV['ADMIN_TOKEN']),
                 ]
             );
 

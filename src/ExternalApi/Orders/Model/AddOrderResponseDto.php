@@ -5,7 +5,7 @@ namespace App\ExternalApi\Orders\Model;
 use DateTime;
 use DateTimeInterface;
 
-readonly class AddOrderResultDto
+readonly class AddOrderResponseDto
 {
     public function __construct(
         public int $orderId,
@@ -16,7 +16,7 @@ readonly class AddOrderResultDto
     ) {
     }
 
-    public static function fromResponse(array $response): AddOrderResultDto
+    public static function fromResponse(array $response): AddOrderResponseDto
     {
         return new self(
             (int) $response['id'],

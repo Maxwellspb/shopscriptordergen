@@ -11,6 +11,8 @@ use App\Infrastructure\ServiceProviders\CommandBusServiceProvider;
 use App\Infrastructure\ServiceProviders\CommandsServiceProvider;
 use App\Infrastructure\ServiceProviders\CommonServicesProvider;
 use App\Infrastructure\ServiceProviders\ModuleCustomersServiceProvider;
+use App\Infrastructure\ServiceProviders\ModuleOrdersServiceProvider;
+use App\Infrastructure\ServiceProviders\ModuleProductsServiceProvider;
 use League\Container\Container;
 use League\Container\DefinitionContainerInterface;
 use League\Tactician\CommandBus;
@@ -32,6 +34,8 @@ class ContainerFactory
             ->addServiceProvider(new ApiCustomersServiceProvider())
             ->addServiceProvider(new ApiOrdersServiceProvider())
             ->addServiceProvider(new ModuleCustomersServiceProvider())
+            ->addServiceProvider(new ModuleOrdersServiceProvider())
+            ->addServiceProvider(new ModuleProductsServiceProvider())
             ->addServiceProvider(new CommandsServiceProvider())
             ->addServiceProvider(new CommandBusServiceProvider());
 

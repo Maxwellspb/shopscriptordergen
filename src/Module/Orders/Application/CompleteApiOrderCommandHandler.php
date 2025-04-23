@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Module\Order\Application;
+namespace App\Module\Orders\Application;
 
 use App\ExternalApi\Orders\DataProvider\OrdersApi;
 

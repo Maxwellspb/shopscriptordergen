@@ -2,26 +2,25 @@
 
 namespace App\Infrastructure\ServiceProviders;
 
-use App\ExternalApi\Customers\DataProvider\CustomersApi;
 use App\ExternalApi\Orders\DataProvider\OrdersApi;
-use App\ExternalApi\Products\DataProvider\ProductsApi;
 use App\Module\Common\Service\Generator\AmountGenerator;
 use App\Module\Customers\Application\AddApiCustomersCommand;
 use App\Module\Customers\Application\AddApiCustomersCommandHandler;
 use App\Module\Customers\Application\ListApiCustomersQuery;
 use App\Module\Customers\Application\ListApiCustomersQueryHandler;
-use App\Module\Customers\Domain\Customer\DataProvider\ApiCustomersProviderInterface;
 use App\Module\Customers\Domain\Customer\DataProvider\CustomersDataProviderInterface;
-use App\Module\Customers\Domain\Customer\Service\CustomersGeneratorInterface;
+use App\Module\Customers\Domain\Customer\Service\CustomersApiProviderInterface;
 use App\Module\Customers\Domain\Customer\Service\CustomersGeneratorService;
-use App\Module\Order\Application\AddApiOrderCommand;
-use App\Module\Order\Application\AddApiOrderCommandHandler;
-use App\Module\Order\Application\CompleteApiOrderCommand;
-use App\Module\Order\Application\CompleteApiOrderCommandHandler;
-use App\Module\Order\Application\MassGenerateOrdersCommand;
-use App\Module\Order\Application\MassGenerateOrdersCommandHandler;
-use App\Module\Order\Application\RefundApiOrderCommand;
-use App\Module\Order\Application\RefundApiOrderCommandHandler;
+use App\Module\Orders\Application\AddApiOrderCommand;
+use App\Module\Orders\Application\AddApiOrderCommandHandler;
+use App\Module\Orders\Application\CompleteApiOrderCommand;
+use App\Module\Orders\Application\CompleteApiOrderCommandHandler;
+use App\Module\Orders\Application\MassGenerateOrdersCommand;
+use App\Module\Orders\Application\MassGenerateOrdersCommandHandler;
+use App\Module\Orders\Application\RefundApiOrderCommand;
+use App\Module\Orders\Application\RefundApiOrderCommandHandler;
+use App\Module\Orders\Domain\Service\OrdersApiProviderInterface;
+use App\Module\Products\Domain\Service\ProductsApiProviderInterface;
 use League\Container\Argument\Literal\ArrayArgument;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
@@ -60,7 +59,7 @@ class CommandsServiceProvider extends AbstractServiceProvider
 
         $container
             ->add(ListApiCustomersQueryHandler::class)
-            ->addArgument(ApiCustomersProviderInterface::class);
+            ->addArgument(CustomersApiProviderInterface::class);
 
         $container
             ->add(AddApiOrderCommandHandler::class)
@@ -74,6 +73,8 @@ class CommandsServiceProvider extends AbstractServiceProvider
             ->add(MassGenerateOrdersCommandHandler::class)
             ->addArguments([
                 CustomersDataProviderInterface::class,
+                ProductsApiProviderInterface::class,
+                OrdersApiProviderInterface::class,
                 CustomersGeneratorService::class,
                 AmountGenerator::class,
                 AmountGenerator::class,

@@ -26,4 +26,9 @@ final readonly class CustomersApiProvider implements CustomersApiProviderInterfa
             ->customersApi
             ->createApiCustomer($createCustomerRequest);
     }
+
+    public function listCustomers(): array
+    {
+        return $this->customersApi->listCustomers();
+    }
 }

@@ -4,7 +4,7 @@ namespace App\ExternalApi\Orders\Model;
 
 use DateTimeInterface;
 
-readonly class ApiOrderDto
+readonly class ApiOrderRequestDto
 {
     public function __construct(
         public int $contactId,

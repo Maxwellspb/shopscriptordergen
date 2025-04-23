@@ -11,6 +11,6 @@ class BooleanGenerator
 
     public static function rareTrue(): bool
     {
-        return array_rand(range(0, 100)) > 80;
+        return array_rand(range(0, 100)) > 90;
     }
 }

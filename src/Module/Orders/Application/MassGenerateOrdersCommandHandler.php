@@ -1,12 +1,19 @@
 <?php
 
-namespace App\Module\Order\Application;
+namespace App\Module\Orders\Application;
 
+use App\ExternalApi\Orders\Model\AddOrderResponseDto;
+use App\ExternalApi\Orders\Model\ApiOrderItemDto;
+use App\ExternalApi\Orders\Model\ApiOrderRequestDto;
+use App\ExternalApi\Products\Model\ApiProductDto;
 use App\Module\Common\Service\Generator\AmountGenerator;
 use App\Module\Common\Service\Generator\BooleanGenerator;
 use App\Module\Customers\Domain\Customer\DataProvider\CustomersDataProviderInterface;
 use App\Module\Customers\Domain\Customer\Model\Customer;
 use App\Module\Customers\Domain\Customer\Service\CustomersGeneratorService;
+use App\Module\Orders\Domain\Model\Order;
+use App\Module\Orders\Domain\Service\OrdersApiProviderInterface;
+use App\Module\Products\Domain\Service\ProductsApiProviderInterface;
 use DateInterval;
 use DatePeriod;
 use DateTime;
@@ -16,11 +23,12 @@ final readonly class MassGenerateOrdersCommandHandler
 {
     public function __construct(
         private CustomersDataProviderInterface $customersDataProvider,
+        private ProductsApiProviderInterface $productsApiProvider,
+        private OrdersApiProviderInterface $ordersApiProvider,
         private CustomersGeneratorService $customersGeneratorService,
         private AmountGenerator $customersAmountGenerator,
         private AmountGenerator $ordersAmountGenerator,
-    )
-    {
+    ) {
     }
 
     /*public function __invoke(MassGenerateOrdersCommand $command)
@@ -83,30 +91,38 @@ final readonly class MassGenerateOrdersCommandHandler
         }
     }*/
 
-    public function __invoke(MassGenerateOrdersCommand $command) : void
+    public function __invoke(MassGenerateOrdersCommand $command): void
     {
         $period = $this->getPeriod();
 
         $customerData = $this->customersDataProvider->fetchCustomerData();
+        $productList = $this->productsApiProvider->listProducts();
 
         foreach ($period as $operationDate) {
             if (empty($customerData)) {
                 break;
             }
 
-            $this->generateCustomersWithOrders(clone $operationDate, $customerData);
+            $this->generateCustomersWithOrders(
+                clone $operationDate,
+                $customerData,
+                $productList,
+            );
         }
     }
 
-    private function generateCustomersWithOrders(DateTimeInterface $operationDate, array &$customerData): void
-    {
+    private function generateCustomersWithOrders(
+        DateTimeInterface $operationDate,
+        array &$customerData,
+        array &$productList,
+    ): void {
         if (empty($customerData)) {
             return;
         }
 
         $customersAmount = $this->customersAmountGenerator->nextInt();
 
-        if ($this->shouldSkip()) {
+        if ($this->shouldSkipOperation()) {
             return;
         }
 
@@ -125,21 +141,58 @@ final readonly class MassGenerateOrdersCommandHandler
                 'customer_id' => $apiCustomerId,
                 'created_at' => $operationDate->format('Y-m-d H:i:s'),
             ]);
+
+            if ($this->shouldSkipFirstOrder()) {
+                continue;
+            }
+
+            $orderId = $this->createOrder(
+                $apiCustomerId,
+                $productList,
+                clone $operationDate
+            );
+
+            print_r([
+                'customer_id' => $apiCustomerId,
+                'order_id' => $orderId,
+            ]);
         }
     }
 
-    private function getPeriod() : DatePeriod
+    private function createOrder(
+        int $apiCustomerId,
+        array &$productList,
+        DateTimeInterface $operationDate
+    ): int {
+        /** @var ApiProductDto $product */
+        $product = $productList[array_rand($productList)];
+
+        return $this
+            ->ordersApiProvider
+            ->placeOrder(
+                $apiCustomerId,
+                $product,
+                $operationDate
+            );
+    }
+
+    private function getPeriod(): DatePeriod
     {
-        $dateStart = new DateTime('2023-01-01');
-        $dateEnd = new DateTime('2025-01-01');
+        $dateStart = new DateTime('2021-01-01');
+        $dateEnd = new DateTime('2025-04-01');
 
         $interval = DateInterval::createFromDateString('1 day');
 
         return new DatePeriod($dateStart, $interval, $dateEnd);
     }
 
-    private function shouldSkip(): bool
+    private function shouldSkipOperation(): bool
     {
         return BooleanGenerator::averageTrue();
+    }
+
+    private function shouldSkipFirstOrder(): bool
+    {
+        return BooleanGenerator::rareTrue();
     }
 }

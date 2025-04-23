@@ -4,8 +4,8 @@ namespace App\ExternalApi\Orders\DataProvider;
 
 use App\ExternalApi\ApiClient\ApiHttpClient;
 use App\ExternalApi\ApiClient\ApiResourcesEnum;
-use App\ExternalApi\Orders\Model\AddOrderResultDto;
-use App\ExternalApi\Orders\Model\ApiOrderDto;
+use App\ExternalApi\Orders\Model\AddOrderResponseDto;
+use App\ExternalApi\Orders\Model\ApiOrderRequestDto;
 use App\ExternalApi\Orders\Normalizer\ApiOrderNormalizer;
 
 final readonly class OrdersApi
@@ -18,16 +18,16 @@ final readonly class OrdersApi
     ) {
     }
 
-    public function addOrder(ApiOrderDto $apiOrderDto): AddOrderResultDto
+    public function addOrder(ApiOrderRequestDto $apiOrderRequestDto): AddOrderResponseDto
     {
-        $orderData = $this->apiOrderNormalizer->normalize($apiOrderDto);
+        $orderData = $this->apiOrderNormalizer->normalize($apiOrderRequestDto);
 
         $addOrderResultData = $this->apiHttpClient->post(
             ApiResourcesEnum::SHOP_ORDER_ADD->value,
             $orderData
         );
 
-        return AddOrderResultDto::fromResponse($addOrderResultData);
+        return AddOrderResponseDto::fromResponse($addOrderResultData);
     }
 
     public function refundOrder(int $orderId): void

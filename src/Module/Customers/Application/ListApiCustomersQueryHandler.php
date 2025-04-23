@@ -3,17 +3,18 @@
 namespace App\Module\Customers\Application;
 
 use App\Module\Customers\Domain\Customer\DataProvider\ApiCustomersProviderInterface;
+use App\Module\Customers\Domain\Customer\Service\CustomersApiProviderInterface;
 
 final readonly class ListApiCustomersQueryHandler
 {
     public function __construct(
-        private ApiCustomersProviderInterface $customersDataProvider
+        private CustomersApiProviderInterface $customersApiProvider
     )
     {
     }
 
     public function __invoke(ListApiCustomersQuery $query)
     {
-        $customers = $this->customersDataProvider->listCustomers();
+        $customers = $this->customersApiProvider->listCustomers();
     }
 }

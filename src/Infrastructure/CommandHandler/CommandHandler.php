@@ -2,11 +2,7 @@
 
 namespace App\Infrastructure\CommandHandler;
 
-use App\Module\Customers\Application\AddApiCustomersCommand;
-use App\Module\Order\Application\AddApiOrderCommand;
-use App\Module\Order\Application\CompleteApiOrderCommand;
-use App\Module\Order\Application\MassGenerateOrdersCommand;
-use App\Module\Order\Application\RefundApiOrderCommand;
+use App\Module\Orders\Application\MassGenerateOrdersCommand;
 use League\Tactician\CommandBus;
 
 class CommandHandler

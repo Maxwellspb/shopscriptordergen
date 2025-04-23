@@ -4,11 +4,9 @@ namespace App\Infrastructure\ServiceProviders;
 
 use App\ExternalApi\Customers\DataProvider\CustomersApi;
 use App\Module\Customers\Domain\Customer\DataProvider\CustomerNormalizer;
-use App\Module\Customers\Domain\Customer\DataProvider\ApiCustomersProviderInterface;
 use App\Module\Customers\Domain\Customer\DataProvider\CustomersDataProviderInterface;
 use App\Module\Customers\Domain\Customer\Service\CustomersApiProviderInterface;
 use App\Module\Customers\Domain\Customer\Service\CustomersGeneratorService;
-use App\Module\Customers\Infrastructure\ApiCustomersProvider;
 use App\Module\Customers\Infrastructure\CustomersApiProvider;
 use App\Module\Customers\Infrastructure\CsvCustomersDataProvider;
 use League\Container\ServiceProvider\AbstractServiceProvider;
@@ -19,7 +17,7 @@ class ModuleCustomersServiceProvider extends AbstractServiceProvider
     {
         $services = [
             CustomersDataProviderInterface::class,
-            ApiCustomersProviderInterface::class,
+            CustomersApiProviderInterface::class,
             CustomersGeneratorService::class,
             CustomerNormalizer::class,
         ];
@@ -48,10 +46,6 @@ class ModuleCustomersServiceProvider extends AbstractServiceProvider
                     CustomersApiProviderInterface::class,
                 ]
             );
-
-        $container
-            ->add(ApiCustomersProviderInterface::class, ApiCustomersProvider::class)
-            ->addArgument(CustomersApi::class);
 
         $container
             ->add(CustomersApiProviderInterface::class, CustomersApiProvider::class)

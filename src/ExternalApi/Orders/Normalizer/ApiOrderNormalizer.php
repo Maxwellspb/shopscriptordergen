@@ -2,11 +2,11 @@
 
 namespace App\ExternalApi\Orders\Normalizer;
 
-use App\ExternalApi\Orders\Model\ApiOrderDto;
+use App\ExternalApi\Orders\Model\ApiOrderRequestDto;
 
 class ApiOrderNormalizer
 {
-    public function normalize(ApiOrderDto $orderDto): array
+    public function normalize(ApiOrderRequestDto $orderDto): array
     {
         $order = [];
         $order['contact_id'] = $orderDto->contactId;
