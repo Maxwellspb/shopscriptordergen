@@ -2,6 +2,7 @@
 
 namespace App\Module\Orders\Domain\Service;
 
+use App\ExternalApi\Orders\Model\ApiOrder;
 use App\ExternalApi\Products\Model\ApiProductDto;
 use DateTimeImmutable;
 use DateTimeInterface;
@@ -25,4 +26,16 @@ interface OrdersApiProviderInterface
      * @return void
      */
     public function completeOrder(int $orderId): void;
+
+    /**
+     * @param DateTimeInterface $createDatetime
+     * @return ApiOrder[]
+     */
+    public function searchOrdersByDate(DateTimeInterface $createDatetime): array;
+
+    /**
+     * @param int $apiOrderId
+     * @return void
+     */
+    public function refundOrder(int $apiOrderId): void;
 }

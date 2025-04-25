@@ -2,24 +2,18 @@
 
 namespace App\ExternalApi\Orders\Normalizer;
 
-use App\ExternalApi\Orders\Model\ApiOrderRequestDto;
+use App\ExternalApi\Orders\Model\ApiOrder;
 
 class ApiOrderNormalizer
 {
-    public function normalize(ApiOrderRequestDto $orderDto): array
+    public function denormalize(array $apiOrderData): ApiOrder
     {
-        $order = [];
-        $order['contact_id'] = $orderDto->contactId;
-        $order['create_datetime'] = $orderDto->creatDatetime->format('Y-m-d H:i:s');
-        $order['params']['force_affiliate'] = $orderDto->forceAffiliate;
-
-        foreach ($orderDto->orderItems as $orderItem) {
-            $order['items'][] = [
-                'sku_id' => $orderItem->skuId,
-                'quantity' => $orderItem->quantity,
-            ];
-        }
-
-        return $order;
+        return new ApiOrder(
+            (int)$apiOrderData['id'],
+            (int)$apiOrderData['contact_id'],
+            new \DateTime($apiOrderData['create_datetime']),
+            (float)$apiOrderData['total'],
+            $apiOrderData['state_id']
+        );
     }
 }

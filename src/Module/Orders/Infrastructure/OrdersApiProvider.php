@@ -22,14 +22,16 @@ final readonly class OrdersApiProvider implements OrdersApiProviderInterface
         ApiProductDto $productDto,
         DateTimeInterface $createDatetime,
     ): int {
+        $amounts = [1, 2, 3];
+
         $orderRequest = new ApiOrderRequestDto(
             $customerId,
             $createDatetime,
-            BooleanGenerator::averageTrue(),
+            BooleanGenerator::higherTrue(),
             [
                 new ApiOrderItemDto(
                     $productDto->skuId,
-                    array_rand([1, 2, 3])
+                    $amounts[array_rand($amounts)],
                 )
             ]
         );
@@ -42,5 +44,15 @@ final readonly class OrdersApiProvider implements OrdersApiProviderInterface
     public function completeOrder(int $orderId): void
     {
         $this->ordersApi->completeOrder($orderId);
+    }
+
+    public function searchOrdersByDate(DateTimeInterface $createDatetime): array
+    {
+        return $this->ordersApi->searchOrdersByDate($createDatetime);
+    }
+
+    public function refundOrder(int $apiOrderId): void
+    {
+        $this->ordersApi->refundOrder($apiOrderId);
     }
 }

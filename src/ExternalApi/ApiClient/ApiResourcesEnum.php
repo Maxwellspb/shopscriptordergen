@@ -10,4 +10,5 @@ enum ApiResourcesEnum: string
     case SHOP_ORDER_ADD = 'shop.order.add';
     case SHOP_ORDER_COMPLETE = 'shop.order.complete';
     case SHOP_ORDER_ACTION = 'shop.order.action';
+    case SHOP_ORDER_SEARCH = 'shop.order.search';
 }

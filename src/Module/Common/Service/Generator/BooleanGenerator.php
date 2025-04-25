@@ -6,11 +6,22 @@ class BooleanGenerator
 {
     public static function averageTrue(): bool
     {
-        return array_rand([1, 2, 3]) % 2 === 0;
+        $seq = [1, 2, 3];
+
+        return $seq[array_rand($seq)] % 2 === 0;
     }
 
     public static function rareTrue(): bool
     {
-        return array_rand(range(0, 100)) > 90;
+        $seq = range(0, 100);
+
+        return $seq[array_rand($seq)] > 90;
+    }
+
+    public static function higherTrue(): bool
+    {
+        $seq = [1, 2, 3];
+
+        return $seq[array_rand($seq)] % 2 !== 0;
     }
 }

@@ -77,7 +77,6 @@ class CommandsServiceProvider extends AbstractServiceProvider
                 OrdersApiProviderInterface::class,
                 CustomersGeneratorService::class,
                 AmountGenerator::class,
-                AmountGenerator::class,
             ]);
 
         $container
